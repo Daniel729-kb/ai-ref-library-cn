@@ -1,5 +1,7 @@
 # AI 作图素材库 · 中文版（脸 / 姿势 / 服装）
 
+<img width="2866" height="1858" alt="Image" src="https://github.com/user-attachments/assets/7d511229-c4a4-4694-b8bd-43c2d8c98a3a" />
+
 把作者 **あぎ / ギア（[@giaaibusi](https://x.com/giaaibusi)）** 公开的三套 AI 作图参考素材，做成了一个中文检索界面：
 
 | 库 | 内容 | 数量 | 源站 |
@@ -20,37 +22,33 @@
 
 然后访问 http://localhost:8080 。
 
-## 目录结构
-
-    ai-ref-library-cn/
-    ├── index.html          入口（三库切换）
-    ├── config.js           本地原图目录配置（默认写本机路径，别人克隆后自动回退源站）
-    ├── assets/
-    │   ├── style.css
-    │   └── app.js          全部逻辑
-    └── data/
-        ├── face.js         1,499 条 + 内嵌缩略图（7.6 MB）
-        ├── pose.js         288 姿势 / 1,439 张 + 内嵌缩略图（6.7 MB）
-        └── costume.js      1,407 套 + 内嵌缩略图（4.1 MB）
-
-数据文件按需加载：只有切到对应库才加载，首屏只加载脸库。
-
 ## 原图怎么来
 
 仓库里**只有缩略图**（内嵌在 data/*.js 里，所以任何环境都不会裂图）。点「下载原图」时按这个顺序：
 
-1. config.js 里配了本地目录、且文件存在 → 直接用本地原图（快、离线可用）
-2. 否则 → 跳转作者源站的对应文件（新标签打开后右键另存）
+1. config.js 里配了本地目录、且文件存在、且使用 file:// 打开 → 直接用本地原图（快、离线可用）
+    * 下载原图后，放置本目录的上层目录，和 config.js 配置一致即可
+2. 否则 → 跳转作者源站的对应文件，国内访问会比较慢，推荐下载原图
 
-config.js 默认写的是作者本机的相对路径；**别人克隆后这些目录不存在，会自动、无感地走源站**，不需要改任何配置。
+附原图下载地址：
 
-也就是说：你自己用是全高清离线版，别人拿去是「检索 + 跳源站下载」版，同一份代码。
+**AI 作图脸库**
 
-## 工作原理
+[https://pan.baidu.com/s/1rxqVp0qkxCQf-8Z8DXI6HA?pwd=jR2P](https://pan.baidu.com/s/1rxqVp0qkxCQf-8Z8DXI6HA?pwd=jR2P)
 
-- 三个数据文件分别挂在 window.LIB_FACE / LIB_POSE / LIB_COSTUME，结构一致：{ data: {...}, img: { id: "data:image/webp;base64,..." } }
-- 缩略图全部内嵌为 WebP data URI，所以 file:// 直接打开、拷到任何地方、丢进预览器都不会裂图
-- 弹窗大图走「本地 → 源站 → 内嵌缩略图」三级回退，下载链接跟着回退结果一起切换
+[https://pan.quark.cn/s/469084c4f0fa](https://pan.quark.cn/s/469084c4f0fa)
+
+**AI 服装库**
+
+[https://pan.baidu.com/s/1bsGuveiCBRbucS-17tpTrg?pwd=s39e](https://pan.baidu.com/s/1bsGuveiCBRbucS-17tpTrg?pwd=s39e)
+
+[https://pan.quark.cn/s/492b9782ab78](https://pan.quark.cn/s/492b9782ab78)
+
+**AI 作图姿势库**
+
+[https://pan.quark.cn/s/6b1004add615](https://pan.quark.cn/s/6b1004add615)
+
+[https://pan.baidu.com/s/1rY8E88d19xabnoBGhex4zg](https://pan.baidu.com/s/1rY8E88d19xabnoBGhex4zg)
 
 ## 授权（请务必看清）
 
