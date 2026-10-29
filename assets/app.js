@@ -415,6 +415,54 @@ function fallbackCopy(txt, done) {
   t.remove();
 }
 
+
+// ---- Agent brief + picks (ComfyUI-mac external source; not part of our library) ----
+var PICKS = [];
+try { PICKS = JSON.parse(localStorage.getItem("agentPicks") || "[]"); } catch (e) { PICKS = []; }
+function savePicks() { try { localStorage.setItem("agentPicks", JSON.stringify(PICKS)); } catch (e) {} renderPickBar(); }
+function curEntry() {
+  if (curLib === "face") {
+    var d = data("face");
+    return { lib: "face", id: cur.id, url: LIB.face.remote(cur.id),
+      info: ["section: " + d.sections[cur.s].name, cur.h >= 0 ? "hair length: " + d.hairs[cur.h].name : "", cur.sj ? "styling (ja): " + cur.sj : ""].filter(Boolean).join("; ") };
+  }
+  var dc = data("costume");
+  return { lib: "costume", id: cur.id, url: LIB.costume.remote(cur.id),
+    info: "category: " + dc.cats[cur.c].ja + " / " + dc.cats[cur.c].name + "; tags: " + cur.kw.join(", ") };
+}
+function entryText(e) {
+  return "- " + (e.lib === "face" ? "FACE" : "OUTFIT") + " " + e.id + "\n  original: " + e.url + "\n  " + e.info;
+}
+function briefText(list) {
+  var head = "External reference picks (ai-ref-library-cn by giaaibusi; faces CC0, outfits free to use but not redistributable). "
+    + "Daniel chose these as inspiration/source only. Do NOT add them to our library, refs/ or characters/ and do not commit them. "
+    + "Download originals to a scratch dir (curl the URL) only to look at them or to attach as test reference photos; "
+    + "use them in chains/tests/ with 'Test ·' titles unless Daniel says otherwise. Uncertain fit is not proof; ratings rules still apply. "
+    + "Face pick = identity/head reference; outfit pick = clothes reference (no person in the image), attach as outfit photo only on fully dressed steps.\n\n";
+  return head + list.map(entryText).join("\n");
+}
+function copyText(txt, btn, label) {
+  var done = function () { btn.textContent = "已复制 ✓"; setTimeout(function () { btn.textContent = label; }, 1600); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(function () { fallbackCopy(txt, done); });
+  else fallbackCopy(txt, done);
+}
+function renderPickBar() {
+  var b = $("#pickbar");
+  if (!PICKS.length) { b.classList.remove("on"); return; }
+  b.classList.add("on");
+  $("#pickn").textContent = "已选 " + PICKS.length + "：" + PICKS.map(function (e) { return (e.lib === "face" ? "脸 " : "衣 ") + e.id; }).join("、");
+}
+$("#mpick").onclick = function () {
+  var e = curEntry();
+  if (!PICKS.some(function (x) { return x.id === e.id; })) PICKS.push(e);
+  savePicks();
+  var b = $("#mpick"); b.textContent = "已加入 ✓"; setTimeout(function () { b.textContent = "加入挑选"; }, 1200);
+};
+$("#magent").onclick = function () { copyText(briefText([curEntry()]), $("#magent"), "复制给 agent"); };
+$("#pickcopy").onclick = function () { copyText(briefText(PICKS), $("#pickcopy"), "复制全部给 agent"); };
+$("#pickclear").onclick = function () { PICKS = []; savePicks(); };
+renderPickBar();
+
 document.addEventListener("keydown", function (e) {
   if (!$("#modal").classList.contains("on")) return;
   if (e.key === "Escape") hideModal();

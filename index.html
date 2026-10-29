@@ -30,7 +30,7 @@
   </details>
   <nav class="nav">
     <button data-lib="face">脸库<b>1,499</b><i>张</i></button>
-    <button data-lib="pose">姿势库<b>288</b><i>个姿势 / 1,439 张</i></button>
+    <button data-lib="pose" hidden>姿势库<b>288</b><i>个姿势 / 1,439 张</i></button>
     <button data-lib="costume">服装库<b>1,407</b><i>套</i></button>
   </nav>
 </div></header>
@@ -57,12 +57,16 @@
       <div id="mextra"></div>
       <div class="acts">
         <a id="mdl" href="#" target="_blank" rel="noopener" download>下载原图</a>
+        <button id="magent">复制给 agent</button>
+        <button id="mpick">加入挑选</button>
         <button id="mcopy">复制作图指令</button>
       </div>
       <div class="keys"><kbd>←</kbd><kbd>→</kbd> 上一张 / 下一张（姿势库里为切换机位）· <kbd>Esc</kbd> 关闭<br>点大图可在新标签打开原图。</div>
     </aside>
   </div>
 </div>
+
+<div id="pickbar"><span id="pickn"></span><button id="pickcopy">复制全部给 agent</button><button id="pickclear">清空</button></div>
 
 <script src="config.js"></script>
 <script src="assets/app.js"></script>
